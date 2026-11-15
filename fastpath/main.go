@@ -15,7 +15,7 @@ import (
 func main() {
 	port := os.Getenv("FASTPATH_PORT")
 	if port == "" {
-		port = "9000"
+		port = "7070"
 	}
 
 	mux := http.NewServeMux()
