@@ -272,6 +272,8 @@ return [
         'env' => [
             'CADDY_SERVER_EXTRA_DIRECTIVES' => <<<'CADDY'
                 reverse_proxy /fast/* 127.0.0.1:7070 {
+                    header_up X-Forwarded-For {header.X-Forwarded-For}
+                    header_up X-Forwarded-Proto {header.X-Forwarded-Proto}
                     header_down X-Fastpath-Via caddy
                 }
                 CADDY,
