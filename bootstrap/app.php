@@ -18,9 +18,11 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         // Guest pages the edge may cache: no session, CSRF, or cookie middleware, so
         // responses carry no Set-Cookie. Only 2xx responses get the public headers.
+        // No stale-while-revalidate: Cloud's shared edge ignores it (an expired page
+        // waits for the app), and browsers would honour it and show stale pages.
         $middleware->group('static', [
             SubstituteBindings::class,
-            SetCacheHeaders::using('public;max_age=0;s_maxage=600;stale_while_revalidate=86400;etag'),
+            SetCacheHeaders::using('public;max_age=0;s_maxage=600;etag'),
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
